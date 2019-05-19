@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Rabin Simulation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@4.3.1/dist/css/smart_wizard.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/smartwizard@4.3.1/dist/css/smart_wizard_theme_arrows.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/smartwizard@4.3.1/dist/css/smart_wizard_theme_circles.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/smartwizard@4.3.1/dist/css/smart_wizard_theme_dots.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+</head>
+
+<body>
+    <h1>Rabin Simulation</h1>
+    <hr class="divider">
+    <div class="container">
+        <div id="rabinWizard">
+            <ul>
+                <li><a href="#step-1">Langkah 1<br /><small>Pengenalan</small></a></li>
+                <li><a href="#step-2">Langkah 2<br /><small>Pembentukan Kunci</small></a></li>
+                <li><a href="#step-3">Langkah 3<br /><small>Enkripsi</small></a></li>
+                <li><a href="#step-4">Langkah 4<br /><small>Dekripsi</small></a></li>
+            </ul>
+
+            <div>
+                <div id="step-1" class="">
+                    <h3>Rabin</h3>
+                    <p>Kriptografi Asimestris Rabin adalah sebuah metode kriptografi yang Asimetris yang dikembangkan
+                        oleh <b>Miceal O Rabin</b>, dan di publikasikan pada tahun 1979.</p>
+                    <p>Metode ini karena adalah termasuk kriptografi asimetris, tentu memiliki kunci private dan kunci
+                        public.</p>
+                    <p>Untuk kunci public : n - Hasil Perkalian Antara p dan q, dimana p dan q adalah bilangan prima
+                        besar.</p>
+                    <p>Untuk kunci private : p dan q, dimana p dan q adalah bilangan prima besar.</p>
+                    <br>
+                    <p>Untuk contoh di website ini, akan ditampilkan cara kerja kriptografi rabin dimana plaintext hanya
+                        2 huruf saja sesuai yang ada di forum 9 Rabin.</p>
+                </div>
+                <div id="step-2" class="">
+                    <h3>Pembentukan Kunci</h3>
+                    <p>Silahkan Masukan bilangan P dan Q</p>
+                    <div class="form-group">
+                        <label for="p">Nilai P <sup><a href="#" data-toggle="tooltip"
+                            data-placement="bottom" data-html="true"
+                            title="Bilangan harus prima, dan jika (P + 1) mod 4, harus bernilai 0">?</a></sup>: </label>
+                        <input type="text" name="p" id="p" class="form-control"
+                            oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                    </div>
+                    <div class="form-group">
+                        <label for="q">Nilai Q <sup><a href="#" data-toggle="tooltip"
+                            data-placement="bottom" data-html="true"
+                            title="Bilangan harus prima, dan jika (Q + 1) mod 4, harus bernilai 0">?</a></sup>: </label>
+                        <input type="text" name="q" id="q" class="form-control"
+                            oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                    </div>
+                    <div class="form-group">
+                        <label for="ns">Nilai N : </label>
+                        <input type="text" name="n" id="n" class="form-control" disabled>
+                    </div>
+                </div>
+                <div id="step-3" class="">
+                    <h3>Enkripsi</h3>
+                    <p>Silahkan Masukan Plaintext</p>
+                    <div class="form-group">
+                        <label for="text">Plain Text : </label>
+                        <div class="input-group">
+                            <input type="text" name="text" id="plainText" class="form-control">
+                            <button type="button" class="btn btn-dark" id="encrypt"
+                                style="margin-left: 10px">Enkripsi</button>
+                        </div>
+                    </div>
+                    <div class="charaTable">
+                        <h5>Tabel Karakter</h5>
+                        <table id="dt_char" class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <td>Mi</td>
+                                    <td>Char</td>
+                                    <td>Kode ASCII</td>
+                                    <td>Biner</td>
+                                    <td>Duplikasi Biner</td>
+                                    <td>Desimal Biner Duplikasi</td>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="chipperTable">
+                        <br>
+                        <h5>Tabel Chipper</h5>
+                        <table id="dt_chipper" class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <td>Ci</td>
+                                    <td>Mi</td>
+                                    <td>Mi<sup>2</sup> mod N</td>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="step-4" class="">
+                    <h3>Dekripsi</h3>
+                    <p>Silahkan Masukkan Nilai P dan Q yang sudah diinput pada saat pembentukan kunci.</p>
+                    <div class="row">
+                        <div class="col">
+                            <div class="container">
+                                <div class="form-group">
+                                    <label for="pDec">Nilai P : </label>
+                                    <input type="text" class="form-control" name="pDec" id="pDec"
+                                        oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                </div>
+                                <div class="form-group">
+                                    <label for="aDec">Nilai A <sup><a href="#" data-toggle="tooltip"
+                                                data-placement="bottom" data-html="true"
+                                                title="Rumus dari Nilai A adalah :<br><b> p<sup>-1</sup> mod q</b>">?</a></sup>:
+                                    </label>
+                                    <input type="text" class="form-control" name="aDec" id="aDec" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="container">
+                                <div class="form-group">
+                                    <label for="qDec">Nilai Q : </label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="qDec" id="qDec"
+                                            oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                        <button type="button" class="btn btn-success" id="decrypt"
+                                            style="margin-left: 10px;">Decrypt</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bDec">Nilai B <sup><a href="#" data-toggle="tooltip"
+                                                data-placement="bottom" data-html="true"
+                                                title="Rumus dari Nilai B adalah :<br><b> q<sup>-1</sup> mod p</b>">?</a></sup>:
+                                    </label>
+                                    <input type="text" class="form-control" name="bDec" id="bDec" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="decrypt">
+                        <h5>Tabel Dekripsi</h5>
+                        <table id="dt_decrypt" class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="text-center">
+                                    <td>Ci</td>
+                                    <td>Nilai Ci</td>
+                                    <td>Ri</td>
+                                    <td>Si</td>
+                                    <td>Xi</td>
+                                    <td>Yi</td>
+                                    <td>-Xi</td>
+                                    <td>-Yi</td>
+                                    <td>Pesan Sebenarnya</td>
+                                    <td>Char</td>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <label for="trueMessage">Pesan Asli : </label>
+                        <input type="text" class="form-control" name="trueMessage" id="trueMessage" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="page-footer font-small pt-4">
+        <!-- Copyright -->
+        <hr class="divider">
+        <div class="footer-copyright text-center py-3">&copy; 2019 Copyright BlackCode. <br>Programmed By : M.Taufiq Hidayat Pohan 
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/smartwizard@4.3.1/dist/js/jquery.smartWizard.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+<script src="script.js"></script>
+
+</html>
